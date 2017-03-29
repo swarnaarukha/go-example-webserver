@@ -2,6 +2,6 @@ version: '3'
 
 services:
   server:
-    image: sarukha/example-webserver
+    image: swarnaarukha/example-webserver
     ports:
       - "8080:8080"
