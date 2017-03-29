@@ -5,3 +5,9 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker build -t swarnaarukha/example-webserver .
+ test:
+    image: docker
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    commands:
+      - docker run swarnaarukha/example-webserver /test.sh
