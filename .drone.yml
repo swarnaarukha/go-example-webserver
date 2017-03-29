@@ -4,13 +4,13 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker build -t swarnaarukha/example-webserver .
+      - docker build -t swarnaarukha/example-webserver:$DRONE_COMMIT_SHA .
   test:
     image: docker
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker run swarnaarukha/example-webserver /test.sh
+      - docker run swarnaarukha/example-webserver:$DRONE_COMMIT_SHA /test.sh
 
   push:
     image: docker
@@ -20,12 +20,14 @@ pipeline:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
       - docker login -u swarnaarukha -p $PASS
-      - docker push swarnaarukha/example-webserver
+      - docker push swarnaarukha/example-webserver:$DRONE_COMMIT_SHA
 
   deploy:
    image: docker
    volumes:
      - /var/run/docker.sock:/var/run/docker.sock
    commands:
-     - docker pull swarnaarukha/example-webserver
+     - docker pull swarnaarukha/example-webserver:$DRONE_COMMIT_SHA
+     - docker tag swarnaarukha/example-webserver:$DRONE_COMMIT_SHA
+              swarnaarukha/example-webserver:latest
      - docker stack deploy -c ./docker-compose.yml example-webserver
