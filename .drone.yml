@@ -33,5 +33,5 @@ pipeline:
    commands:
      - docker pull swarnaarukha/example-webserver:$DRONE_COMMIT_SHA
      - docker tag swarnaarukha/example-webserver:$DRONE_COMMIT_SHA
-              swarnaarukha/example-webserver:latest
+              swarnaarukha/example-webserver:production
      - docker stack deploy -c ./docker-compose.yml example-webserver
