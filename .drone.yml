@@ -4,7 +4,11 @@ pipeline:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     commands:
-      - docker build -t swarnaarukha/example-webserver:$DRONE_COMMIT_SHA .
+      - docker build
+         --label org.label-schema.vcs-ref=$DRONE_COMMIT_SHA
+         --label build-number=$DRONE_BUILD_NUMBER
+         --label build-date="$(date)"
+         -t swarnaarukha/example-webserver:$DRONE_COMMIT_SHA .
   test:
     image: docker
     volumes:
